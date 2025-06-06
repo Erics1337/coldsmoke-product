@@ -63,8 +63,7 @@ export default function Home() {
     const yPosition = (screen - elementHeight) / 2;
     const scale = screen > 800 ? "0.65" : "0.45";
 
-    // Quick fade-in animation at the start
-    // Remove the immediate fade-in and let the timeline handle it
+    // Set initial state; the timeline will handle the fade-in animation
     gsap.set(model.current, { opacity: 0, y: yPositionTop, scale: 1, rotation: 0 });
     
     const timeline = gsap.timeline({
@@ -115,7 +114,8 @@ export default function Home() {
         <nav>
           <div className="nav">
             <div className="nav-links" style={{ gap: "1rem" }}>
-              <Image src="/coldsmoke-logo.png" alt="Cold Smoke Logo" width={60} height={60} style={{ width: "auto", height: "60px" }} />
+              {/* Logo filename uses camel case */}
+              <Image src="/coldSmoke-logo.png" alt="Cold Smoke Logo" width={60} height={60} style={{ width: "auto", height: "60px" }} />
             </div>
             <div className="nav-links" id="links">
               <button>products</button>
@@ -298,8 +298,8 @@ export default function Home() {
                   setTimer(2500);
                 }}
                 style={{
-                  opacity: imageIndex == 0 ? "1" : " ",
-                  scale: imageIndex == 0 ? "1.6" : " ",
+                  opacity: imageIndex == 0 ? "1" : "",
+                  transform: imageIndex == 0 ? "scale(1.6)" : "scale(1)",
                 }}
               ></div>
               <div
@@ -309,8 +309,8 @@ export default function Home() {
                   setTimer(2500);
                 }}
                 style={{
-                  opacity: imageIndex == 1 ? "1" : " ",
-                  scale: imageIndex == 1 ? "1.6" : " ",
+                  opacity: imageIndex == 1 ? "1" : "",
+                  transform: imageIndex == 1 ? "scale(1.6)" : "scale(1)",
                 }}
               ></div>
               <div
@@ -320,8 +320,8 @@ export default function Home() {
                   setTimer(2500);
                 }}
                 style={{
-                  opacity: imageIndex == 2 ? "1" : " ",
-                  scale: imageIndex == 2 ? "1.6" : " ",
+                  opacity: imageIndex == 2 ? "1" : "",
+                  transform: imageIndex == 2 ? "scale(1.6)" : "scale(1)",
                 }}
               ></div>
               <div
@@ -331,16 +331,16 @@ export default function Home() {
                   setTimer(2500);
                 }}
                 style={{
-                  opacity: imageIndex == 3 ? "1" : " ",
-                  scale: imageIndex == 3 ? "1.6" : " ",
+                  opacity: imageIndex == 3 ? "1" : "",
+                  transform: imageIndex == 3 ? "scale(1.6)" : "scale(1)",
                 }}
               ></div>
               <div
                 className="splash-id"
                 onClick={() => setImageIndex(4)}
                 style={{
-                  opacity: imageIndex == 4 ? "1" : " ",
-                  scale: imageIndex == 4 ? "1.6" : " ",
+                  opacity: imageIndex == 4 ? "1" : "",
+                  transform: imageIndex == 4 ? "scale(1.6)" : "scale(1)",
                 }}
               ></div>
             </div>
