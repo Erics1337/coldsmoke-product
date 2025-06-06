@@ -116,6 +116,8 @@ export default function Home() {
             <div className="nav-links" style={{ gap: "1rem" }}>
               {/* Logo filename uses camel case */}
               <Image src="coldSmoke-logo.png" alt="Cold Smoke Logo" width={60} height={60} style={{ width: "auto", height: "60px" }} />
+              
+              <Image src={images[imageIndex].src} alt={`Cold Smoke Splitboard View ${imageIndex + 1}`} width={800} height={600} className="splash" />
             </div>
             <div className="nav-links" id="links">
               <button>products</button>
@@ -157,7 +159,18 @@ export default function Home() {
           >
             Voodoo Splitboard
           </h1>
-          <Image src="coldsmoke-1.png" alt="Cold Smoke Voodoo Splitboard" width={800} height={600} style={{ maxWidth: "100%" }} ref={model} />
+          <Image 
+            src="coldsmoke-1.png" 
+            alt="Cold Smoke Voodoo Splitboard" 
+            width={800} 
+            height={600} 
+            style={{ 
+              maxWidth: "100%", 
+              height: "auto", // Add this to maintain aspect ratio
+              objectFit: "contain" // Add this to prevent squishing
+            }} 
+            ref={model} 
+          />
         </div>
         <div
           className="container-holder"

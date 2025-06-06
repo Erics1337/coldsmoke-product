@@ -10,11 +10,11 @@ export const metadata: Metadata = {
   description:
     "High quality snowboard products for people who love snow and movement.",
   openGraph: {
-    images: "https://coldsmoke-splitboards.vercel.app/opengraph-image.png",
+    images: "https://erics1337.github.io/coldsmoke-product/opengraph-image.png",
   },
-  metadataBase: new URL("https://coldsmoke-splitboards.vercel.app/"),
+  metadataBase: new URL("https://erics1337.github.io/coldsmoke-product/"),
   icons: {
-    icon: "/favicon.ico",
+    icon: "favicon.ico",
   },
 };
 
