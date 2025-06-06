@@ -1,6 +1,7 @@
 "use client";
 import gsap from "gsap";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useInView } from "react-intersection-observer";
@@ -50,7 +51,7 @@ export default function Home() {
     }, timer);
 
     return () => clearInterval(interval);
-  }, [imageIndex, timer]);
+  }, [imageIndex, timer, images.length]);
 
   const model = useRef(null);
   const textRef = useRef(null);
@@ -114,7 +115,7 @@ export default function Home() {
         <nav>
           <div className="nav">
             <div className="nav-links" style={{ gap: "1rem" }}>
-              <img src="coldsmoke-logo.png" style={{ width: "auto", height: "60px" }} />
+              <Image src="/coldsmoke-logo.png" alt="Cold Smoke Logo" width={60} height={60} style={{ width: "auto", height: "60px" }} />
             </div>
             <div className="nav-links" id="links">
               <button>products</button>
@@ -156,7 +157,7 @@ export default function Home() {
           >
             Voodoo Splitboard
           </h1>
-          <img src="coldsmoke-1.png" style={{ maxWidth: "100%" }} ref={model} />
+          <Image src="/coldsmoke-1.png" alt="Cold Smoke Voodoo Splitboard" width={800} height={600} style={{ maxWidth: "100%" }} ref={model} />
         </div>
         <div
           className="container-holder"
@@ -271,8 +272,11 @@ export default function Home() {
         </div>
 
         <div className="container-holder">
-          <img
-            src="coldsmoke-trans.png"
+          <Image
+            src="/coldsmoke-trans.png"
+            alt="Cold Smoke Splitboard Transparent View"
+            width={1920}
+            height={1080}
             style={{ width: "100%", height: "100vh", objectFit: "cover" }}
           />
         </div>
@@ -284,7 +288,7 @@ export default function Home() {
             justifyContent: "flex-end",
           }}
         >
-          <img src={images[imageIndex].src} className="splash" />
+          <Image src={`/${images[imageIndex].src}`} alt={`Cold Smoke Splitboard View ${imageIndex + 1}`} width={800} height={600} className="splash" />
           <div className="splash-id-holder">
             <div className="splash-id-container">
               <div
@@ -352,8 +356,8 @@ export default function Home() {
             justifyContent: "space-between",
           }}
         >
-          <div className="container" ref={ref2} style={{ opacity: 0 }}>
-            <h1>lighter, faster and powder ready.</h1>
+          <div className="container" ref={ref2} style={{ opacity: 0, marginTop: 100}}>
+            <h1 >lighter, faster and powder ready.</h1>
             <br />
             <br />
             <p>
@@ -392,8 +396,11 @@ export default function Home() {
             minHeight: "fit-content",
           }}
         >
-          <img
-            src="coldsmoke-sidewall-2.png"
+          <Image
+            src="/coldsmoke-sidewall-2.png"
+            alt="Cold Smoke Splitboard Sidewall Detail"
+            width={1920}
+            height={1080}
             style={{ width: "100%", height: "60vh", objectFit: "cover" }}
           />
         </div>
