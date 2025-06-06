@@ -2,8 +2,9 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const ParallaxAnimation = () => {
   const mainRef = useRef(null);
@@ -13,7 +14,6 @@ const ParallaxAnimation = () => {
 
   useEffect(() => {
     const arrowBtn = mainRef.current as HTMLElement | null;
-    const arrowBtnElement = arrowBtn?.querySelector('#arrow-btn');
 
     const tl = gsap.timeline({
       scrollTrigger: {
