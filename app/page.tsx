@@ -115,7 +115,7 @@ export default function Home() {
           <div className="nav">
             <div className="nav-links" style={{ gap: "1rem" }}>
               {/* Logo filename uses camel case */}
-              <Image src="/coldSmoke-logo.png" alt="Cold Smoke Logo" width={60} height={60} style={{ width: "auto", height: "60px" }} />
+              <Image src="coldSmoke-logo.png" alt="Cold Smoke Logo" width={60} height={60} style={{ width: "auto", height: "60px" }} />
             </div>
             <div className="nav-links" id="links">
               <button>products</button>
@@ -157,7 +157,7 @@ export default function Home() {
           >
             Voodoo Splitboard
           </h1>
-          <Image src="/coldsmoke-1.png" alt="Cold Smoke Voodoo Splitboard" width={800} height={600} style={{ maxWidth: "100%" }} ref={model} />
+          <Image src="coldsmoke-1.png" alt="Cold Smoke Voodoo Splitboard" width={800} height={600} style={{ maxWidth: "100%" }} ref={model} />
         </div>
         <div
           className="container-holder"
@@ -273,7 +273,7 @@ export default function Home() {
 
         <div className="container-holder">
           <Image
-            src="/coldsmoke-trans.png"
+            src="coldsmoke-trans.png"
             alt="Cold Smoke Splitboard Transparent View"
             width={1920}
             height={1080}
@@ -397,7 +397,7 @@ export default function Home() {
           }}
         >
           <Image
-            src="/coldsmoke-sidewall-2.png"
+            src="coldsmoke-sidewall-2.png"
             alt="Cold Smoke Splitboard Sidewall Detail"
             width={1920}
             height={1080}

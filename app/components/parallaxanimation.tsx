@@ -87,7 +87,7 @@ const ParallaxAnimation = () => {
           <image className="cloud3" xlinkHref="https://assets.codepen.io/721952/cloud3.png" width="1200" height="800" />
           
           {/* Snowboard - using class selector for GSAP animation */}
-          <image className="snowboard" xlinkHref="/coldsmoke-1.png" width="200" height="200" />
+          <image className="snowboard" xlinkHref="coldsmoke-1.png" width="200" height="200" />
           
           <text fill="#fff" x="350" y="200" fontSize="150px" className="font-['Montserrat',_sans-serif] text-center explore-text">EXPLORE</text>
           <polyline ref={arrowRef} className="arrow" fill="#fff" points="599,250 599,289 590,279 590,282 600,292 610,282 610,279 601,289 601,250" />
