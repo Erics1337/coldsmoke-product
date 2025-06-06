@@ -1,0 +1,202 @@
+@media (min-width: 1px) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html,
+  body,
+  main {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    background: #fff;
+  }
+
+  * {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    z-index: 2;
+    color: #070707;
+    text-wrap: balance;
+  }
+
+  .background-holder {
+    position: absolute;
+    min-height: 100vh;
+    width: 100%;
+  }
+
+  button {
+    all: unset;
+    cursor: pointer;
+    transition: 150ms linear;
+  }
+
+  h1 {
+    font-size: clamp(59.3px, 4vw, 95.95px);
+    font-weight: 200;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+  p,
+  li {
+    font-size: clamp(12px, 2vw, 14px);
+    text-align: justify;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  span {
+    font-weight: 300;
+    font-size: 16.18px;
+  }
+
+  a,
+  button {
+    line-height: 1.4;
+    font-size: 16.18px;
+    font-weight: 300;
+    text-decoration: none;
+    width: fit-content;
+    transition: 150ms linear;
+  }
+
+  a:hover,
+  button:hover {
+    opacity: 0.4;
+    transition: 150ms linear;
+  }
+
+  nav {
+    padding-block: 1rem;
+    position: fixed;
+    top: 0rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* backdrop-filter: blur(20px); */
+    z-index: 3;
+  }
+
+  .nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  #links {
+    display: none;
+  }
+
+  footer {
+    padding-block: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #070707;
+
+    p,
+    a,
+    span,
+    button {
+      color: white;
+    }
+  }
+
+  .splash {
+    max-width: 100%;
+    aspect-ratio: 1/1;
+    height: 60vh;
+    object-fit: contain;
+    object-position: center center;
+    z-index: 1;
+  }
+
+  .description {
+    text-align: center;
+  }
+
+  .splash-id-holder {
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    margin-bottom: 4rem;
+  }
+
+  .splash-id-container {
+    display: flex;
+    gap: 1.2rem;
+  }
+
+  .splash-id {
+    cursor: pointer;
+    width: 0.6rem;
+    aspect-ratio: 1;
+    background: #070707;
+    border-radius: 100rem;
+    opacity: 0.4;
+    transition: 150ms linear;
+    position: relative;
+  }
+
+  .splash-id:hover {
+    scale: 2;
+    opacity: 1;
+    transition: 150ms linear;
+  }
+
+  .container-holder {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+  }
+
+  .container {
+    width: 95%;
+  }
+}
+
+@media (min-width: 799px) {
+  .nav {
+    width: 90%;
+    justify-content: space-between;
+  }
+
+  .nav-links {
+    gap: 2rem;
+    justify-content: space-between;
+  }
+
+  #links {
+    display: flex;
+  }
+
+  .container {
+    width: 70%;
+  }
+
+  .splash {
+    width: 60%;
+  }
+
+  .splash-id-holder {
+    bottom: 24rem;
+  }
+}
