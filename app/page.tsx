@@ -116,14 +116,14 @@ export default function Home() {
     const snowboardTopEdgeFinal = yPosition - (snowboardEffectiveWidth / 2);
     const textYPositionEnd = snowboardTopEdgeFinal - textHeight - 20; // 20px gap above snowboard
 
-    // Keep textYPositionStart as before or adjust if needed for the initial animation phase
-    const textYPositionStart = screen > 800 ? yPositionTop + 250 : yPositionTop + 150; 
+    // Remove textYPositionStart as it's no longer needed for a different starting y position
+    // const textYPositionStart = screen > 800 ? yPositionTop + 250 : yPositionTop + 150; 
 
     timeline.fromTo(
       textRef.current as any,
-      { opacity: 0, y: textYPositionStart }, 
-      { opacity: 1, y: textYPositionEnd }, // Animate to the calculated position
-      "start+=0.2"
+      { opacity: 0, y: textYPositionEnd }, // Start with opacity 0 at its final y position
+      { opacity: 1, y: textYPositionEnd, duration: 0.8 }, // End with opacity 1 at the same y position
+      "start+=0.2" // You can adjust the timing if needed
     );
 
     return () => {
