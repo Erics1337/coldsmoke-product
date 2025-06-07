@@ -4,12 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useInView } from "react-intersection-observer";
 import { ReactLenis } from "lenis/react";
-import ParallaxAnimation from "./components/parallaxanimation";
 
 export default function Home() {
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
   const ref1 = useRef(null);
   const [inViewRef1, setInViewRef1] = useInView({
@@ -25,6 +25,11 @@ export default function Home() {
     threshold: 0.1,
   });
 
+  // Parallax animation refs
+  const mainRef = useRef(null);
+  const scrollDistRef = useRef(null);
+  const arrowRef = useRef(null);
+
   useEffect(() => {
     if (setInViewRef1) {
       gsap.to(ref1.current, { opacity: 1, duration: 1.5, ease: "power2.inOut" });
@@ -34,14 +39,67 @@ export default function Home() {
     }
   }, [setInViewRef1, setInViewRef2]);
 
+  // Parallax animation effect
+  useEffect(() => {
+    const arrowBtn = mainRef.current as HTMLElement | null;
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: scrollDistRef.current,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1,
+      },
+    });
+
+    tl.fromTo('.sky', { y: 0 }, { y: -200 }, 0)
+      .fromTo('.cloud1', { y: 100 }, { y: -800 }, 0)
+      .fromTo('.cloud2', { y: -150 }, { y: -500 }, 0)
+      .fromTo('.cloud3', { y: -50 }, { y: -650 }, 0)
+      .fromTo('.mountBg', { y: -10 }, { y: -100 }, 0)
+      .fromTo('.mountMg', { y: -30 }, { y: -250 }, 0)
+      .fromTo('.mountFg', { y: -50 }, { y: -600 }, 0)
+      // EXPLORE text scrolls up and out of view
+      .fromTo('.explore-text', { y: 0 }, { y: -400 }, 0)
+      // Snowboard scrolls in from bottom - set initial opacity to 1 to prevent fading
+      .set('.snowboard', { opacity: 1 }, 0)
+      .fromTo('.snowboard', 
+        { y: 1000, x: 400, rotation: 0, scale: 0.8 }, 
+        { y: -700, x: 700, rotation: -45, scale: 1.2 }, 0);
+
+    const handleMouseEnter = () => {
+      gsap.to(arrowRef.current, { y: 10, duration: 0.8, ease: 'back.inOut(3)', overwrite: 'auto' });
+    };
+
+    const handleMouseLeave = () => {
+      gsap.to(arrowRef.current, { y: 0, duration: 0.5, ease: 'power3.out', overwrite: 'auto' });
+    };
+
+    const handleClick = () => {
+      gsap.to(window, { scrollTo: window.innerHeight, duration: 1.5, ease: 'power1.inOut' });
+    };
+
+    if (arrowBtn) {
+      arrowBtn.addEventListener('mouseenter', handleMouseEnter);
+      arrowBtn.addEventListener('mouseleave', handleMouseLeave);
+      arrowBtn.addEventListener('click', handleClick);
+    }
+
+    return () => {
+      tl.kill();
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      if (arrowBtn) {
+        arrowBtn.removeEventListener('mouseenter', handleMouseEnter);
+        arrowBtn.removeEventListener('mouseleave', handleMouseLeave);
+        arrowBtn.removeEventListener('click', handleClick);
+      }
+    };
+  }, []);
+
   const isProd = process.env.NODE_ENV === 'production';
-  // basePath is still needed for routing, but not for static image src attributes
   const basePath = isProd ? 'coldsmoke-product' : ''; 
 
   const images = [
-    // For the carousel, if assetPrefix is set, these should also not have basePath manually added.
-    // If your previous fix (removing the extra slash) works locally, 
-    // it should also work in production with a correctly set assetPrefix.
     { src: `coldsmoke-1.png` }, 
     { src: `coldsmoke-hardware-2.png` },
     { src: `coldsmoke-sidewall.png` },
@@ -64,22 +122,20 @@ export default function Home() {
   const textRef = useRef(null);
 
   useEffect(() => {
-        // Set initial states for all splash screens and their components
-        gsap.set([
-          '#splash-1', '#splash-2', '#splash-3', '#splash-4', '#splash-5',
-          '#coldsmoke-1', '#coldsmoke-image', '#coldsmoke-image-2', '#coldsmoke-closeup', '#coldsmoke-sidewall',
-          '#text-1', '#text-2', '#text-3', '#text-4', '#text-5'
-        ], { autoAlpha: 0 });
-    
+    // Set initial states for all splash screens and their components
+    gsap.set([
+      '#splash-1', '#splash-2', '#splash-3', '#splash-4', '#splash-5',
+      '#coldsmoke-1', '#coldsmoke-image', '#coldsmoke-image-2', '#coldsmoke-closeup', '#coldsmoke-sidewall',
+      '#text-1', '#text-2', '#text-3', '#text-4', '#text-5'
+    ], { autoAlpha: 0 });
+
     const screen = window.innerHeight;
-    const elementHeight = (model.current as any)?.offsetHeight || 0; // This is snowboard height when vertical
+    const elementHeight = (model.current as any)?.offsetHeight || 0;
     const yPositionTop = screen > 800 ? -250 : -150; 
-    const yPosition = (screen - elementHeight) / 2; // Snowboard's final Y (center of vertical board)
+    const yPosition = (screen - elementHeight) / 2;
     const scale = screen > 800 ? "0.65" : "0.45";
 
-    // Get the height of the text element itself
     const textHeight = (textRef.current as any)?.offsetHeight || 0;
-    // Get the effective width of the snowboard image when rotated (which becomes its height visually)
     const snowboardEffectiveWidth = (model.current as any)?.offsetWidth * parseFloat(scale) || 0;
 
     gsap.set(model.current, { opacity: 0, y: yPositionTop, scale: 1, rotation: 0 });
@@ -98,7 +154,7 @@ export default function Home() {
     
     timeline.fromTo(
       model.current as any,
-      { opacity: 0, y: yPositionTop, scale: 1, rotation: 0 },
+      { opacity: 1, y: yPositionTop, scale: 1, rotation: 0 },
       { opacity: 1, y: yPositionTop, scale: 1, rotation: 0, duration: 0.2 },
       "start"
     );
@@ -106,24 +162,18 @@ export default function Home() {
     timeline.fromTo(
       model.current as any,
       { opacity: 1, y: yPositionTop, scale: 1, rotation: 0 },
-      { opacity: 1, y: yPosition, scale: scale, rotation: -90, duration: 0.8 }, // Ends at yPosition, rotated
+      { opacity: 1, y: yPosition, scale: scale, rotation: -90, duration: 0.8 },
       "start+=0.2"
     );
     
-    // Position text just above the horizontal snowboard
-    // yPosition is the center of where the snowboard (initially vertical) is placed.
-    // When rotated -90deg, its visual top edge will be yPosition - (snowboardEffectiveWidth / 2)
     const snowboardTopEdgeFinal = yPosition - (snowboardEffectiveWidth / 2);
-    const textYPositionEnd = snowboardTopEdgeFinal - textHeight - 20; // 20px gap above snowboard
-
-    // Remove textYPositionStart as it's no longer needed for a different starting y position
-    // const textYPositionStart = screen > 800 ? yPositionTop + 250 : yPositionTop + 150; 
+    const textYPositionEnd = snowboardTopEdgeFinal - textHeight - 20;
 
     timeline.fromTo(
       textRef.current as any,
-      { opacity: 0, y: textYPositionEnd }, // Start with opacity 0 at its final y position
-      { opacity: 1, y: textYPositionEnd, duration: 0.8 }, // End with opacity 1 at the same y position
-      "start+=0.2" // You can adjust the timing if needed
+      { opacity: 0, y: textYPositionEnd },
+      { opacity: 1, y: textYPositionEnd, duration: 0.8 },
+      "start+=0.2"
     );
 
     return () => {
@@ -134,14 +184,46 @@ export default function Home() {
   return (
     <ReactLenis root>
       <main>
-        <ParallaxAnimation />
+        {/* Combined Parallax Animation */}
+        <div ref={scrollDistRef} id="parallax-container" className="h-[200vh] w-full">
+          <main ref={mainRef} className="fixed top-0 left-1/2 transform -translate-x-1/2 w-full max-w-[1200px] h-full bg-[#fff]">
+            <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+              <mask id="m">
+                <g className="cloud1">
+                  <rect fill="#fff" width="100%" height="801" y="799" />
+                  <image xlinkHref="https://assets.codepen.io/721952/cloud1Mask.jpg" width="1200" height="800" />
+                </g>
+              </mask>
+
+              <image className="sky" xlinkHref="https://assets.codepen.io/721952/sky.jpg" width="1200" height="590" />
+              <image className="mountBg" xlinkHref="https://assets.codepen.io/721952/mountBg.png" width="1200" height="800" />
+              <image className="mountMg" xlinkHref="https://assets.codepen.io/721952/mountMg.png" width="1200" height="800" />
+              <image className="cloud2" xlinkHref="https://assets.codepen.io/721952/cloud2.png" width="1200" height="800" />
+              <image className="mountFg" xlinkHref="https://assets.codepen.io/721952/mountFg.png" width="1200" height="800" />
+              <image className="cloud1" xlinkHref="https://assets.codepen.io/721952/cloud1.png" width="1200" height="800" />
+              <image className="cloud3" xlinkHref="https://assets.codepen.io/721952/cloud3.png" width="1200" height="800" />
+              
+              {/* Snowboard scrolling through clouds */}
+              {/* Snowboard - positioned to scroll in naturally like clouds */}
+              <image className="snowboard" xlinkHref="/coldsmoke-1.png" width="150" height="150" style={{transformOrigin: 'center'}} />
+              
+              <text fill="#fff" x="350" y="200" fontSize="150px" className="font-['Montserrat',_sans-serif] text-center explore-text">EXPLORE</text>
+              <polyline ref={arrowRef} className="arrow" fill="#fff" points="599,250 599,289 590,279 590,282 600,292 610,282 610,279 601,289 601,250" />
+
+              <g mask="url(#m)">
+                <rect fill="#fff" width="100%" height="100%" />
+                <text x="350" y="200" fontSize="150px" fill="#162a43" className="font-['Montserrat',_sans-serif] text-center">FURTHER</text>
+              </g>
+
+              <rect id="arrow-btn" width="100" height="100" opacity="0" x="550" y="220" className="cursor-pointer" />
+            </svg>
+          </main>
+        </div>
+
         <nav>
           <div className="nav">
             <div className="nav-links" style={{ gap: "1rem" }}>
-              {/* Logo filename uses camel case, ensure it's in public folder and path is correct */}
-              {/* Remove basePath here if assetPrefix is correctly set in next.config.mjs for production */}
               <Image src={`coldSmoke-logo.png`} alt="Cold Smoke Logo" width={60} height={60} style={{ width: "auto", height: "60px" }} />
-              
             </div>
             <div className="nav-links" id="links">
               <button>products</button>
@@ -166,7 +248,6 @@ export default function Home() {
             ref={textRef}
             style={{
               position: "absolute",
-              // Adjust initial top if it flashes, but GSAP controls final position
               top: "50%", 
               left: "50%",
               transform: "translate(-50%, -50%)",
@@ -185,24 +266,26 @@ export default function Home() {
             Voodoo Splitboard
           </h1>
           <Image 
-            src="coldsmoke-1.png" // Remove basePath here as well
+            src="coldsmoke-1.png"
             alt="Cold Smoke Voodoo Splitboard" 
             width={800} 
             height={600} 
             style={{ 
               maxWidth: "100%", 
-              height: "auto", // Add this to maintain aspect ratio
-              objectFit: "contain" // Add this to prevent squishing
+              height: "auto",
+              objectFit: "contain"
             }} 
             ref={model} 
           />
         </div>
+        
+        {/* ... existing code ... */}
         <div
           className="container-holder"
           style={{
             zIndex: "0",
             alignItems: "flex-start",
-            background: "#fff", // Changed background to white
+            background: "#fff",
             minHeight: "300vh",
           }}
           id="stop"
@@ -394,7 +477,7 @@ export default function Home() {
             justifyContent: "space-between",
           }}
         >
-          <div className="container" ref={ref2} style={{ opacity: 0, marginTop: 100}}>
+          <div className="container" ref={ref2} style={{ opacity: 0, marginTop: 50}}>
             <h1 >lighter, faster and powder ready.</h1>
             <br />
             <br />
@@ -414,7 +497,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="description">
+          <div className="description" style={{ marginBottom: '4rem' }}>
             <h1>Voodoo Splitboard</h1>
             <span>$850 ships from the U.S.</span>
             <br />
