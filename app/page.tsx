@@ -140,7 +140,7 @@ export default function Home() {
             <div className="nav-links" style={{ gap: "1rem" }}>
               {/* Logo filename uses camel case, ensure it's in public folder and path is correct */}
               {/* Remove basePath here if assetPrefix is correctly set in next.config.mjs for production */}
-              <Image src={`coldsmoke-logo.png`} alt="Cold Smoke Logo" width={60} height={60} style={{ width: "auto", height: "60px" }} />
+              <Image src={`coldSmoke-logo.png`} alt="Cold Smoke Logo" width={60} height={60} style={{ width: "auto", height: "60px" }} />
               
             </div>
             <div className="nav-links" id="links">
