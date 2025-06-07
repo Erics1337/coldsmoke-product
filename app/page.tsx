@@ -36,17 +36,17 @@ export default function Home() {
 
   const isProd = process.env.NODE_ENV === 'production';
   // basePath is still needed for routing, but not for static image src attributes
-  const basePath = isProd ? '/coldsmoke-product' : ''; 
+  const basePath = isProd ? 'coldsmoke-product' : ''; 
 
   const images = [
     // For the carousel, if assetPrefix is set, these should also not have basePath manually added.
     // If your previous fix (removing the extra slash) works locally, 
     // it should also work in production with a correctly set assetPrefix.
-    { src: `/coldsmoke-1.png` }, 
-    { src: `/coldsmoke-hardware-2.png` },
-    { src: `/coldsmoke-sidewall.png` },
-    { src: `/coldsmoke-tip.png` },
-    { src: `/coldsmoke-closeup.png` },
+    { src: `coldsmoke-1.png` }, 
+    { src: `coldsmoke-hardware-2.png` },
+    { src: `coldsmoke-sidewall.png` },
+    { src: `coldsmoke-tip.png` },
+    { src: `coldsmoke-closeup.png` },
   ];
 
   const [imageIndex, setImageIndex] = useState(0);
@@ -140,7 +140,7 @@ export default function Home() {
             <div className="nav-links" style={{ gap: "1rem" }}>
               {/* Logo filename uses camel case, ensure it's in public folder and path is correct */}
               {/* Remove basePath here if assetPrefix is correctly set in next.config.mjs for production */}
-              <Image src={`/coldSmoke-logo.png`} alt="Cold Smoke Logo" width={60} height={60} style={{ width: "auto", height: "60px" }} />
+              <Image src={`coldsmoke-logo.png`} alt="Cold Smoke Logo" width={60} height={60} style={{ width: "auto", height: "60px" }} />
               
             </div>
             <div className="nav-links" id="links">
@@ -185,7 +185,7 @@ export default function Home() {
             Voodoo Splitboard
           </h1>
           <Image 
-            src="/coldsmoke-1.png" // Remove basePath here as well
+            src="coldsmoke-1.png" // Remove basePath here as well
             alt="Cold Smoke Voodoo Splitboard" 
             width={800} 
             height={600} 
