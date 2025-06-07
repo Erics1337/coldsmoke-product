@@ -180,7 +180,7 @@ export default function Home() {
             Voodoo Splitboard
           </h1>
           <Image 
-            src="coldsmoke-1.png" 
+            src="/coldsmoke-1.png" 
             alt="Cold Smoke Voodoo Splitboard" 
             width={800} 
             height={600} 
@@ -321,7 +321,7 @@ export default function Home() {
             justifyContent: "flex-end",
           }}
         >
-          <Image src={`/${images[imageIndex].src}`} alt={`Cold Smoke Splitboard View ${imageIndex + 1}`} width={800} height={600} className="splash" />
+          <Image src={images[imageIndex].src} alt={`Cold Smoke Splitboard View ${imageIndex + 1}`} width={800} height={600} className="splash" />
           <div className="splash-id-holder">
             <div className="splash-id-container">
               <div
