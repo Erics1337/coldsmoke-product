@@ -34,12 +34,15 @@ export default function Home() {
     }
   }, [setInViewRef1, setInViewRef2]);
 
+  const isProd = process.env.NODE_ENV === 'production';
+  const basePath = isProd ? '/coldsmoke-product' : '';
+
   const images = [
-    { src: "coldsmoke-1.png" },
-    { src: "coldsmoke-hardware-2.png" },
-    { src: "coldsmoke-sidewall.png" },
-    { src: "coldsmoke-tip.png" },
-    { src: "coldsmoke-closeup.png" },
+    { src: `${basePath}/coldsmoke-1.png` },
+    { src: `${basePath}/coldsmoke-hardware-2.png` },
+    { src: `${basePath}/coldsmoke-sidewall.png` },
+    { src: `${basePath}/coldsmoke-tip.png` },
+    { src: `${basePath}/coldsmoke-closeup.png` },
   ];
 
   const [imageIndex, setImageIndex] = useState(0);
@@ -131,8 +134,8 @@ export default function Home() {
         <nav>
           <div className="nav">
             <div className="nav-links" style={{ gap: "1rem" }}>
-              {/* Logo filename uses camel case */}
-              <Image src="coldSmoke-logo.png" alt="Cold Smoke Logo" width={60} height={60} style={{ width: "auto", height: "60px" }} />
+              {/* Logo filename uses camel case, ensure it's in public folder and path is correct */}
+              <Image src={`${basePath}/coldSmoke-logo.png`} alt="Cold Smoke Logo" width={60} height={60} style={{ width: "auto", height: "60px" }} />
               
             </div>
             <div className="nav-links" id="links">
