@@ -311,7 +311,7 @@ export default function Home() {
 
         <div className="container-holder">
           <Image
-            src="coldsmoke-trans.png"
+            src="/coldsmoke-trans.png"
             alt="Cold Smoke Splitboard Transparent View"
             width={1920}
             height={1080}
@@ -435,7 +435,7 @@ export default function Home() {
           }}
         >
           <Image
-            src="coldsmoke-sidewall-2.png"
+            src="/coldsmoke-sidewall-2.png"
             alt="Cold Smoke Splitboard Sidewall Detail"
             width={1920}
             height={1080}
