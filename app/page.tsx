@@ -57,13 +57,24 @@ export default function Home() {
   const textRef = useRef(null);
 
   useEffect(() => {
+        // Set initial states for all splash screens and their components
+        gsap.set([
+          '#splash-1', '#splash-2', '#splash-3', '#splash-4', '#splash-5',
+          '#coldsmoke-1', '#coldsmoke-image', '#coldsmoke-image-2', '#coldsmoke-closeup', '#coldsmoke-sidewall',
+          '#text-1', '#text-2', '#text-3', '#text-4', '#text-5'
+        ], { autoAlpha: 0 });
+    
     const screen = window.innerHeight;
-    const elementHeight = (model.current as any)?.offsetHeight || 0;
-    const yPositionTop = screen > 800 ? -250 : -150; // Further adjusted to bring snowboard closer to clouds
-    const yPosition = (screen - elementHeight) / 2;
+    const elementHeight = (model.current as any)?.offsetHeight || 0; // This is snowboard height when vertical
+    const yPositionTop = screen > 800 ? -250 : -150; 
+    const yPosition = (screen - elementHeight) / 2; // Snowboard's final Y (center of vertical board)
     const scale = screen > 800 ? "0.65" : "0.45";
 
-    // Set initial state; the timeline will handle the fade-in animation
+    // Get the height of the text element itself
+    const textHeight = (textRef.current as any)?.offsetHeight || 0;
+    // Get the effective width of the snowboard image when rotated (which becomes its height visually)
+    const snowboardEffectiveWidth = (model.current as any)?.offsetWidth * parseFloat(scale) || 0;
+
     gsap.set(model.current, { opacity: 0, y: yPositionTop, scale: 1, rotation: 0 });
     
     const timeline = gsap.timeline({
@@ -78,7 +89,6 @@ export default function Home() {
       },
     });
     
-    // First phase: Fade in the snowboard (takes 20% of the timeline)
     timeline.fromTo(
       model.current as any,
       { opacity: 0, y: yPositionTop, scale: 1, rotation: 0 },
@@ -86,19 +96,26 @@ export default function Home() {
       "start"
     );
     
-    // Second phase: Move, scale and rotate the snowboard (takes remaining 80%)
     timeline.fromTo(
       model.current as any,
       { opacity: 1, y: yPositionTop, scale: 1, rotation: 0 },
-      { opacity: 1, y: yPosition, scale: scale, rotation: -90, duration: 0.8 },
+      { opacity: 1, y: yPosition, scale: scale, rotation: -90, duration: 0.8 }, // Ends at yPosition, rotated
       "start+=0.2"
     );
     
-    // Animate text to fade in when snowboard starts rotating and move with it
+    // Position text just above the horizontal snowboard
+    // yPosition is the center of where the snowboard (initially vertical) is placed.
+    // When rotated -90deg, its visual top edge will be yPosition - (snowboardEffectiveWidth / 2)
+    const snowboardTopEdgeFinal = yPosition - (snowboardEffectiveWidth / 2);
+    const textYPositionEnd = snowboardTopEdgeFinal - textHeight - 20; // 20px gap above snowboard
+
+    // Keep textYPositionStart as before or adjust if needed for the initial animation phase
+    const textYPositionStart = screen > 800 ? yPositionTop + 250 : yPositionTop + 150; 
+
     timeline.fromTo(
       textRef.current as any,
-      { opacity: 0, y: yPositionTop - 100 },
-      { opacity: 1, y: yPosition - 100 },
+      { opacity: 0, y: textYPositionStart }, 
+      { opacity: 1, y: textYPositionEnd }, // Animate to the calculated position
       "start+=0.2"
     );
 
@@ -117,7 +134,6 @@ export default function Home() {
               {/* Logo filename uses camel case */}
               <Image src="coldSmoke-logo.png" alt="Cold Smoke Logo" width={60} height={60} style={{ width: "auto", height: "60px" }} />
               
-              <Image src={images[imageIndex].src} alt={`Cold Smoke Splitboard View ${imageIndex + 1}`} width={800} height={600} className="splash" />
             </div>
             <div className="nav-links" id="links">
               <button>products</button>
@@ -135,7 +151,6 @@ export default function Home() {
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",
-            marginTop: "-20rem", // Further adjusted to bring snowboard closer to clouds
           }}
           id="image"
         >
@@ -143,7 +158,8 @@ export default function Home() {
             ref={textRef}
             style={{
               position: "absolute",
-              top: "20%",
+              // Adjust initial top if it flashes, but GSAP controls final position
+              top: "50%", 
               left: "50%",
               transform: "translate(-50%, -50%)",
               zIndex: "10",
@@ -155,6 +171,7 @@ export default function Home() {
               letterSpacing: "0.1em",
               textShadow: "0 1px 3px rgba(255,255,255,0.8)",
               fontFamily: "'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif",
+              opacity: 0, 
             }}
           >
             Voodoo Splitboard

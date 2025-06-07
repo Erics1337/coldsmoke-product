@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
 import "./globals.css";
 import { sf_pro } from "./ui/fonts";
+import "./globals.css";
 
-export const metadata: Metadata = {
+// Define metadata using the new Next.js 15 approach
+export const metadata = {
   title: {
     default: "ColdSmoke Splitboards - Voodoo Product Showcase",
     template: "%s — ColdSmoke Splitboards",

@@ -12,4 +12,6 @@ export const sf_pro = localFont({
       style: "normal",
     },
   ],
+  display: 'swap', // Add this to prevent FOUC
+  fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'], // Add fallback fonts
 });
